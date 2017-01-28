@@ -98,7 +98,7 @@ public class SummaryBot implements Listener {
         }
 
         if (event.getCommand().equals("contribute")) {
-            event.getChat().sendMessage("The code is to be uploaded to GitHub soon for open contribution!");
+            event.getChat().sendMessage("Feel free to contribute to the project here: https://github.com/mkotb/Summarizer");
             return;
         }
 
