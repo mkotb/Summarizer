@@ -99,6 +99,7 @@ public class Summary {
         put("time", (body) -> body.getElementsByTag("article"));
         put("yahoo", (body) -> Collections.singleton(body.getElementById("Main")));
         put("telegra", (body) -> Collections.singleton(body.getElementById("_tl_editor")));
+        put("qz", (body) -> body.getElementsByClass("item-body"));
     }};
 
     /**

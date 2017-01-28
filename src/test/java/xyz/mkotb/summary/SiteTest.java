@@ -139,5 +139,7 @@ public class SiteTest {
         put("Mirror", "http://www.mirror.co.uk/news/world-news/asghar-farhadi-donald-trump-oscars-9709430");
 
         put("telegra.ph", "http://telegra.ph/ugly-01-28");
+
+        put("Quartz", "https://qz.com/896975/on-holocaust-remembrance-day-president-trump-shut-the-door-on-refugees-repeating-one-of-the-uss-tragic-mistakes/");
     }};
 }
