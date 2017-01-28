@@ -29,6 +29,9 @@ public class Summary {
     private final Map<String, Predicate<Element>> siteTextPredicates = new HashMap<String, Predicate<Element>>() {{
         put("def", (element) -> element.tagName().equals("p") && element.classNames().isEmpty());
 
+        put("cbs", (element) -> element.tagName().equals("p") && element.classNames().isEmpty()
+                && !element.parent().hasClass("updated-time"));
+
         put("theglobeandmail", (element) -> element.tagName().equals("p") && !isBold(element));
 
         put("cnn", (element) -> ((element.tagName().equals("div") || element.tagName().equals("p"))
