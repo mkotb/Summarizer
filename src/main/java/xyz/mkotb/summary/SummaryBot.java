@@ -83,8 +83,9 @@ public class SummaryBot implements Listener {
                     .message("This bot provides summaries to news articles or text!\n\n" +
 
                             "Currently, the bot natively supports the following news sites for links: " +
-                            "The Globe and Mail, CNN, BCB, BBC, The Huffington Post, The Washington Post, Al Jazeera, NPR, Fox News, ABC News, " +
-                            "CTV News, Global News, USA Today, AP, Reuters, CBS News, Forbes, and Real Clear Politics.\n\n" +
+                            "The Globe and Mail, CNN, CBC, BBC, The Huffington Post, The Washington Post, Al Jazeera, NPR, Fox News, ABC News, " +
+                            "CTV News, Global News, USA Today, AP, Reuters, CBS News, Forbes, The New York Times, Vox, Politico, The Independent, " +
+                            "The Guardian, Business Insider, TIME, Yahoo News, The New Yorker, CNBC, The Telegraph, Mirror and Real Clear Politics.\n\n" +
 
                             "However, with the /summarize_text command, you can send any text and the bot will attempt to summarize it." +
                             " Although the bot supports all kinds of text, the algorithm has been optimized for long text and news articles, " +

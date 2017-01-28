@@ -113,5 +113,29 @@ public class SiteTest {
         put("Forbes", "https://www.forbes.com/sites/themexicoinstitute/2017/01/23/trump-to-announce-plans-for-renegotiation-of-nafta-five-ways-to-improve-the-agreement/#1c5300df5562");
 
         put("Real Clear Politics", "http://www.realclearpolitics.com/articles/2017/01/28/mexico_trump_agrees_not_to_talk_publicly_about_wall.html#2");
+
+        put("New York Times", "https://www.nytimes.com/2017/01/27/us/politics/trump-syrian-refugees.html");
+
+        put("Vox", "http://www.vox.com/2017/1/27/14370854/trump-refugee-ban-order-muslim");
+
+        put("Politico", "http://www.politico.com/story/2017/01/trump-diplomacy-international-affairs-sanctions-234300");
+
+        put("The Independent", "http://www.independent.co.uk/news/world/americas/donald-trump-refugee-ban-executive-order-muslim-majority-countries-syrians-un-united-nations-a7550576.html");
+
+        put("The Guardian", "https://www.theguardian.com/us-news/2017/jan/28/donald-trump-first-week-news-review-executive-orders");
+
+        put("Business Insider", "http://www.businessinsider.com/google-recalls-staff-to-us-trump-immigration-order-sundar-pichai02017-1");
+
+        put("TIME", "http://time.com/4652478/donald-trump-russia-putin-republicans/");
+
+        put("Yahoo News", "https://www.yahoo.com/news/trump-wont-say-whether-hell-ease-russia-sanctions-but-wants-great-relationship-194115742.html");
+
+        put("The New Yorker", "http://www.newyorker.com/news/john-cassidy/donald-trumps-new-world-disorder");
+
+        put("CNBC", "http://www.cnbc.com/2017/01/27/trump-signs-executive-orders-on-extreme-vetting-of-refugees-military-readiness.html");
+
+        put("The Telegraph", "http://www.telegraph.co.uk/news/2017/01/28/theresa-effect-donald-trumps-meeting-prime-minister-viewed-america/");
+
+        put("Mirror", "http://www.mirror.co.uk/news/world-news/asghar-farhadi-donald-trump-oscars-9709430");
     }};
 }

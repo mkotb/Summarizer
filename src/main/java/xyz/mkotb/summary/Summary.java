@@ -57,6 +57,19 @@ public class Summary {
         /*put("smh.com", (element) -> element.tagName().equals("p") && element.className().isEmpty()
                 && !isBold(element)
                 && !element.parent().hasClass("story__headline"));*/
+
+        put("nytimes", (element) -> element.tagName().equals("p")
+                && element.hasClass("story-content")
+                && element.hasClass("story-body-text"));
+
+        put("vox", (element) -> element.tagName().equals("p"));
+
+        put("time", (element) -> element.tagName().equals("p"));
+
+        put("yahoo", (element) -> element.tagName().equals("p")
+                && element.hasAttr("type") && element.attr("type").equals("text"));
+
+        put("newyorker", (element) -> element.tagName().equals("p") && element.hasAttr("word_count"));
     }};
     /**
      * This is a map of a domain to it's corresponding function which will get the element(s) which represent
@@ -76,6 +89,12 @@ public class Summary {
         put("apnews", (body) -> body.getElementsByClass("articleBody"));
         put("reuters", (body) -> Collections.singleton(body.getElementById("article-text")));
         put("realclearpolitics", (body) -> body.getElementsByClass("article-body-text"));
+        put("nytimes", (body) -> Collections.singleton(body.getElementById("story")));
+        put("vox", (body) -> body.getElementsByClass("c-entry-content"));
+        put("politico", (body) -> body.getElementsByClass("story-text"));
+        put("businessinsider", (body) -> Collections.singleton(body.getElementById("content")));
+        put("time", (body) -> body.getElementsByTag("article"));
+        put("yahoo", (body) -> Collections.singleton(body.getElementById("Main")));
     }};
 
     /**
