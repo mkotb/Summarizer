@@ -137,5 +137,7 @@ public class SiteTest {
         put("The Telegraph", "http://www.telegraph.co.uk/news/2017/01/28/theresa-effect-donald-trumps-meeting-prime-minister-viewed-america/");
 
         put("Mirror", "http://www.mirror.co.uk/news/world-news/asghar-farhadi-donald-trump-oscars-9709430");
+
+        put("telegra.ph", "http://telegra.ph/ugly-01-28");
     }};
 }
