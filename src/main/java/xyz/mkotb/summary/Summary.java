@@ -102,7 +102,7 @@ public class Summary {
         put("yahoo", (body) -> Collections.singleton(body.getElementById("Main")));
         put("telegra", (body) -> Collections.singleton(body.getElementById("_tl_editor")));
         put("qz", (body) -> body.getElementsByClass("item-body"));
-        put("thehill", (body) -> Collections.singleton(body.getElementById("content")));
+        put("thehill", (body) -> body.getElementsByAttributeValue("property", "content:encoded"));
         put("washingtontimes", (body) -> body.getElementsByClass("article-text"));
     }};
 
