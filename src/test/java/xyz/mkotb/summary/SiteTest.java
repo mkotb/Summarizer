@@ -114,7 +114,7 @@ public class SiteTest {
 
         put("Real Clear Politics", "http://www.realclearpolitics.com/articles/2017/01/28/mexico_trump_agrees_not_to_talk_publicly_about_wall.html#2");
 
-        put("New York Times", "https://www.nytimes.com/2017/01/27/us/politics/trump-syrian-refugees.html");
+        put("New York Times", "https://mobile.nytimes.com/2017/01/27/us/politics/trump-syrian-refugees.html");
 
         put("Vox", "http://www.vox.com/2017/1/27/14370854/trump-refugee-ban-order-muslim");
 

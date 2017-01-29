@@ -145,6 +145,8 @@ public class Summary {
     }
 
     public List<String> summaryFor(String link) throws IOException {
+        link = link.replaceAll("http(s)?://(w{3}\\.)?(m|\\Qmobile\\E)\\.", "http://www.");
+
         StringBuilder builder = new StringBuilder();
         String hos = new URL(link).getHost().replace("www.", "");
         Element body = Jsoup.connect(link)
