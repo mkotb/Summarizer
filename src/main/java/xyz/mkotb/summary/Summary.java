@@ -147,7 +147,9 @@ public class Summary {
     public List<String> summaryFor(String link) throws IOException {
         StringBuilder builder = new StringBuilder();
         String hos = new URL(link).getHost().replace("www.", "");
-        Element body = Jsoup.connect(link).get();
+        Element body = Jsoup.connect(link)
+                .userAgent("Summarizer Telegram Bot")
+                .header("Accept", "*/*").get();
 
 
         if (hos.startsWith("edition.cnn.com")) {
