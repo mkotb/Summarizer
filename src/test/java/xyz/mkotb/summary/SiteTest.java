@@ -141,5 +141,9 @@ public class SiteTest {
         put("telegra.ph", "http://telegra.ph/ugly-01-28");
 
         put("Quartz", "https://qz.com/896975/on-holocaust-remembrance-day-president-trump-shut-the-door-on-refugees-repeating-one-of-the-uss-tragic-mistakes/");
+
+        put("The Hill", "http://thehill.com/blogs/blog-briefing-room/news/316714-federal-judge-blocks-trump-immigration-ban-nationwide");
+
+        put("The Washington Times", "http://www.washingtontimes.com/news/2017/jan/29/the-latest-protest-at-seattle-tacoma-airport-conti/");
     }};
 }

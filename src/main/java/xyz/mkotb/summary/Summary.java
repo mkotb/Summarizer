@@ -73,6 +73,8 @@ public class Summary {
                 && element.hasAttr("type") && element.attr("type").equals("text"));
 
         put("newyorker", (element) -> element.tagName().equals("p") && element.hasAttr("word_count"));
+
+        put("thehill", (element) -> (element.tagName().equals("p") || element.tagName().equals("div")) && element.classNames().isEmpty());
     }};
     /**
      * This is a map of a domain to it's corresponding function which will get the element(s) which represent
@@ -100,6 +102,8 @@ public class Summary {
         put("yahoo", (body) -> Collections.singleton(body.getElementById("Main")));
         put("telegra", (body) -> Collections.singleton(body.getElementById("_tl_editor")));
         put("qz", (body) -> body.getElementsByClass("item-body"));
+        put("thehill", (body) -> Collections.singleton(body.getElementById("content")));
+        put("washingtontimes", (body) -> body.getElementsByClass("article-text"));
     }};
 
     /**
