@@ -3,7 +3,7 @@
 This program is a summarizer I wrote that I linked to a Telegram Bot. This bot will take in your news articles or the like and
 summarize them as best as it can. I had documented the codebase throughout, so please feel free to take a look and see how it works.
 
-![](https://i.imgur.com/VkbCeL6.png)
+![](https://i.imgur.com/ccWPRt3.png)
 
 Currently, the bot natively supports the following news sites for links: The Globe and Mail, CNN, BCB, BBC, The Huffington Post, The Washington Post, Al Jazeera, NPR, Fox News, ABC News, CTV News, Global News, USA Today, AP, Reuters, CBS News, Forbes, and Real Clear Politics.
 
