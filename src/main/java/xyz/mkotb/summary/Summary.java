@@ -29,6 +29,9 @@ public class Summary {
     private final Map<String, Predicate<Element>> siteTextPredicates = new HashMap<String, Predicate<Element>>() {{
         put("def", (element) -> element.tagName().equals("p") && element.classNames().isEmpty());
 
+        put("independent.co", (element) -> (element.tagName().equals("p") || element.tagName().equals("span")) && element.classNames().isEmpty()
+                && !element.parents().stream().anyMatch((e) -> e.classNames().contains("full-gallery")));
+
         put("cbs", (element) -> element.tagName().equals("p") && element.classNames().isEmpty()
                 && !element.parent().hasClass("updated-time"));
 
@@ -294,7 +297,7 @@ public class Summary {
         // sublist then sort by chronological order then sublist to match the length
         pointsSorted = pointsSorted.subList(0, selectionSize);
         pointsSorted.sort((s1, s2) -> sentences.indexOf(s1) - sentences.indexOf(s2));
-        return pointsSorted.subList(0, (length >= pointsSorted.size()) ? pointsSorted.size() - 1 : length);
+        return pointsSorted.subList(0, (length >= pointsSorted.size()) ? pointsSorted.size() : length);
     }
 
     /**

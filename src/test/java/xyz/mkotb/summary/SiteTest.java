@@ -120,7 +120,7 @@ public class SiteTest {
 
         put("Politico", "http://www.politico.com/story/2017/01/trump-diplomacy-international-affairs-sanctions-234300");
 
-        put("The Independent", "http://www.independent.co.uk/news/world/americas/donald-trump-refugee-ban-executive-order-muslim-majority-countries-syrians-un-united-nations-a7550576.html");
+        put("The Independent", "http://www.independent.co.uk/news/world/americas/donald-trump-muslim-immigration-ban-reince-priebus-green-card-holders-visa-travel-warning-a7552041.html");
 
         put("The Guardian", "https://www.theguardian.com/us-news/2017/jan/28/donald-trump-first-week-news-review-executive-orders");
 
