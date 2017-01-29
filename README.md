@@ -5,7 +5,8 @@ summarize them as best as it can. I had documented the codebase throughout, so p
 
 ![](https://i.imgur.com/ccWPRt3.png)
 
-Currently, the bot natively supports the following news sites for links: The Globe and Mail, CNN, BCB, BBC, The Huffington Post, The Washington Post, Al Jazeera, NPR, Fox News, ABC News, CTV News, Global News, USA Today, AP, Reuters, CBS News, Forbes, and Real Clear Politics.
+Currently, the bot natively supports the following news sites for links: The Globe and Mail, CNN, CBC, BBC, The Huffington Post, The Washington Post, Al Jazeera, NPR, Fox News, ABC News, CTV News, Global News, USA Today, AP, Reuters, CBS News, Forbes, The New York Times, Vox, Politico, The Independent, telegra.ph, The Guardian, Business Insider, TIME, Yahoo News, The New Yorker, CNBC, The Telegraph, Mirror, Quartz, and Real Clear Politics.
+
 
 I would be more than happy to accept PRs to this project, however please respect the code convention used and the flow of the program if you wnat me to accept them.
 
