@@ -3,12 +3,12 @@ package xyz.mkotb.summary;
 import opennlp.tools.sentdetect.SentenceDetectorME;
 import opennlp.tools.sentdetect.SentenceModel;
 import org.atteo.evo.inflector.English;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -155,10 +155,15 @@ public class Summary {
         link = link.replaceAll("http(s)?://(w{3}\\.)?(m|\\Qmobile\\E)\\.", "http://www.");
 
         StringBuilder builder = new StringBuilder();
-        String hos = new URL(link).getHost().replace("www.", "");
-        Element body = Jsoup.connect(link)
+        Connection.Response response = Jsoup.connect(link)
                 .userAgent("Summarizer Telegram Bot")
-                .header("Accept", "*/*").get();
+                .header("Accept", "*/*")
+                .followRedirects(true)
+                .execute();
+        String hos = response.url().getHost().replace("www.", "");
+        Element body = Jsoup.parse(response.body()).body();
+
+        System.out.println(hos);
 
 
         if (hos.startsWith("edition.cnn.com")) {

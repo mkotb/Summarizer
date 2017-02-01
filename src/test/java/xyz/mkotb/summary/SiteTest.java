@@ -145,5 +145,7 @@ public class SiteTest {
         put("The Hill", "http://thehill.com/blogs/blog-briefing-room/news/316714-federal-judge-blocks-trump-immigration-ban-nationwide");
 
         put("The Washington Times", "http://www.washingtontimes.com/news/2017/jan/29/the-latest-protest-at-seattle-tacoma-airport-conti/");
+
+        put("AMP - CNBC", "https://news.google.com/news/amp?caurl=http%3A%2F%2Fwww.cnbc.com%2Famp%2F2017%2F02%2F01%2Fus-markets.html#a-916e4508-3e60-4939-b0f5-1a357ac26f16");
     }};
 }
