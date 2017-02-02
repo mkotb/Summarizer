@@ -73,7 +73,7 @@ public class SummaryBot implements Listener {
                 .title(title)
                 .description(content)
                 .id("a").inputMessageContent(InputTextMessageContent.builder().messageText(content)
-                        .parseMode(ParseMode.MARKDOWN).disableWebPagePreview(false).build())
+                        .parseMode(ParseMode.HTML).disableWebPagePreview(false).build())
                 .build();
     }
 
@@ -185,7 +185,7 @@ public class SummaryBot implements Listener {
     }
 
     public void sendSummary(List<String> summary, Chat chat, Message message, String link) {
-        chat.sendMessage(SendableTextMessage.builder().replyTo(message).message(summaryMessage(summary, link)).disableWebPagePreview(true).build());
+        chat.sendMessage(SendableTextMessage.builder().replyTo(message).message(summaryMessage(summary, link)).parseMode(ParseMode.HTML).disableWebPagePreview(true).build());
     }
 
     public String summaryMessage(List<String> summary, String link) {
