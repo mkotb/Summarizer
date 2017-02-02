@@ -9,14 +9,22 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Summary {
-    private final List<String> FUNCTION_WORDS = new ArrayList<>();
+    private final List<String> functionWords = new ArrayList<>();
     private SentenceDetectorME sentenceDetector;
+    /**
+     * This is a list of sites which require the user agent
+     * to not be the one of a desktop for whatever reason.
+     *
+     * Such as Forbes due to the Quote of the Day.
+     */
+    private final List<String> specialAgentSites = Collections.unmodifiableList(Arrays.asList("forbes.com"));
     /**
      * This is essentially a map of the predicate for an element to it's corresponding site's domain to
      * detect whether it's part of the article or it's a form of header or a related article link or such.
@@ -131,7 +139,7 @@ public class Summary {
 
     Summary() {
         new BufferedReader(new InputStreamReader(Summary.class.getResourceAsStream("/function_words.txt")))
-                .lines().forEach(FUNCTION_WORDS::add);
+                .lines().forEach(functionWords::add);
 
         try {
             sentenceDetector = new SentenceDetectorME(new SentenceModel(new File("en-sent.bin")));
@@ -155,16 +163,18 @@ public class Summary {
         link = link.replaceAll("http(s)?://(w{3}\\.)?(m|\\Qmobile\\E)\\.", "http://www.");
 
         StringBuilder builder = new StringBuilder();
+        String linkHost = new URL(link).getHost().replace("www.", "");
         Connection.Response response = Jsoup.connect(link)
-                .userAgent("Summarizer Telegram Bot")
+                // get the desktop version of the site (in most cases)
+                // tried using a custom user agent indicating the actual purpose
+                // however some sites treat that as a mobile client, resulting in filters failing
+                .userAgent(specialAgentSites.contains(linkHost) ? "Summarizer Telegram Bot" :
+                        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4")
                 .header("Accept", "*/*")
                 .followRedirects(true)
                 .execute();
         String hos = response.url().getHost().replace("www.", "");
         Element body = Jsoup.parse(response.body()).body();
-
-        System.out.println(hos);
-
 
         if (hos.startsWith("edition.cnn.com")) {
             hos = "cnn.com";
@@ -252,7 +262,7 @@ public class Summary {
          */
         for (String word : text.split("\\W+")) {
             // ignore any function words
-            if (FUNCTION_WORDS.contains(word.toUpperCase())) {
+            if (functionWords.contains(word.toUpperCase())) {
                 continue;
             }
 
@@ -313,7 +323,7 @@ public class Summary {
         int points = 0;
 
         for (String word : sentence.split("\\W+")) {
-            if (FUNCTION_WORDS.contains(word.toUpperCase())) {
+            if (functionWords.contains(word.toUpperCase())) {
                 continue;
             }
 

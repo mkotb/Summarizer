@@ -10,6 +10,7 @@ import pro.zackpollard.telegrambot.api.chat.message.send.SendableTextMessage;
 import pro.zackpollard.telegrambot.api.event.Listener;
 import pro.zackpollard.telegrambot.api.event.chat.inline.InlineQueryReceivedEvent;
 import pro.zackpollard.telegrambot.api.event.chat.message.CommandMessageReceivedEvent;
+import pro.zackpollard.telegrambot.api.event.chat.message.TextMessageReceivedEvent;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -62,7 +63,7 @@ public class SummaryBot implements Listener {
             return;
         }
 
-        String message = "[Original Article](" + event.getQuery().getQuery() + ")\n\n" + summaryMessage(summarization);
+        String message = summaryMessage(summarization, event.getQuery().getQuery());
 
         event.getQuery().answer(bot, createArticle("Your Summary", message));
     }
@@ -74,6 +75,11 @@ public class SummaryBot implements Listener {
                 .id("a").inputMessageContent(InputTextMessageContent.builder().messageText(content)
                         .parseMode(ParseMode.MARKDOWN).disableWebPagePreview(false).build())
                 .build();
+    }
+
+    @Override
+    public void onTextMessageReceived(TextMessageReceivedEvent event) {
+        summarizeLink(event.getContent().getContent().split(" ")[0], event.getChat(), event.getMessage());
     }
 
     @Override
@@ -110,34 +116,7 @@ public class SummaryBot implements Listener {
                 return;
             }
 
-            List<String> summarization;
-
-            try {
-                summarization = summary.summaryFor(event.getArgs()[0]);
-            } catch (MalformedURLException ex) {
-                event.getChat().sendMessage("Please send a valid link!");
-                return;
-            } catch (IOException ex) {
-                event.getChat().sendMessage("There was a problem trying to access that website. Sorry!");
-                return;
-            } catch (IndexOutOfBoundsException ex) {
-                event.getChat().sendMessage("I couldn't find the article body! If this site is on the supported list, contact @MazenK");
-                return;
-            } catch (Exception ex) {
-                Date date = new Date();
-                log("There was an unexpected error trying to summarize the link " + event.getArgs()[0] + " at " + date.toString());
-                ex.printStackTrace();
-                event.getChat().sendMessage("There was an unexpected error when trying to summarize your link. " +
-                        "Contact @MazenK and mention the following timestamp: " + date.toString());
-                return;
-            }
-
-            if (summarization.isEmpty()) {
-                event.getChat().sendMessage("I couldn't create a summary! If this site is on the supported list, contact @MazenK");
-                return;
-            }
-
-            sendSummary(summarization, event.getChat(), event.getMessage());
+            summarizeLink(event.getArgs()[0], event.getChat(), event.getMessage());
         }
 
         if (event.getCommand().equals("summarize_text")) {
@@ -170,22 +149,57 @@ public class SummaryBot implements Listener {
                 return;
             }
 
-            sendSummary(summarization, event.getChat(), event.getMessage());
+            sendSummary(summarization, event.getChat(), event.getMessage(), null);
         }
     }
 
-    public void sendSummary(List<String> summary, Chat chat, Message message) {
-        chat.sendMessage(SendableTextMessage.builder().replyTo(message).message(summaryMessage(summary)).build());
+    public void summarizeLink(String link, Chat chat, Message message) {
+        List<String> summarization;
+
+        try {
+            summarization = summary.summaryFor(link);
+        } catch (MalformedURLException ex) {
+            chat.sendMessage("Please send a valid link!");
+            return;
+        } catch (IOException ex) {
+            chat.sendMessage("There was a problem trying to access that website. Sorry!");
+            return;
+        } catch (IndexOutOfBoundsException ex) {
+            chat.sendMessage("I couldn't find the article body! If this site is on the supported list, contact @MazenK");
+            return;
+        } catch (Exception ex) {
+            Date date = new Date();
+            log("There was an unexpected error trying to summarize the link " + link + " at " + date.toString());
+            ex.printStackTrace();
+            chat.sendMessage("There was an unexpected error when trying to summarize your link. " +
+                    "Contact @MazenK and mention the following timestamp: " + date.toString());
+            return;
+        }
+
+        if (summarization.isEmpty()) {
+            chat.sendMessage("I couldn't create a summary! If this site is on the supported list, contact @MazenK");
+            return;
+        }
+
+        sendSummary(summarization, chat, message, link);
     }
 
-    public String summaryMessage(List<String> summary) {
-        StringBuilder builder = new StringBuilder();
+    public void sendSummary(List<String> summary, Chat chat, Message message, String link) {
+        chat.sendMessage(SendableTextMessage.builder().replyTo(message).message(summaryMessage(summary, link)).disableWebPagePreview(true).build());
+    }
+
+    public String summaryMessage(List<String> summary, String link) {
+        SendableTextMessage.SendableTextBuilder builder = SendableTextMessage.builder().textBuilder();
+
+        if (link != null) {
+            builder.link("Original Article", link).newLine().newLine();
+        }
 
         for (int i = 0; i < summary.size(); i++) {
-            builder.append(NUMBER_EMOJIS[i]).append(' ').append(summary.get(i)).append("\n\n");
+            builder.plain(NUMBER_EMOJIS[i]).space().plain(summary.get(i)).newLine().newLine();
         }
 
-        builder.setLength(builder.length() - 2);
-        return builder.toString();
+        String message = builder.buildText().build().getMessage();
+        return message.substring(0, message.length() - 2);
     }
 }
