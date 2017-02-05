@@ -14,10 +14,14 @@ import pro.zackpollard.telegrambot.api.event.chat.message.TextMessageReceivedEve
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SummaryBot implements Listener {
+    public static final Pattern URL_PATTERN = Pattern.compile("((https?):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)");
     public static final String[] NUMBER_EMOJIS = new String[] {"1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣"};
     private Summary summary;
     private TelegramBot bot;
@@ -79,7 +83,26 @@ public class SummaryBot implements Listener {
 
     @Override
     public void onTextMessageReceived(TextMessageReceivedEvent event) {
-        summarizeLink(event.getContent().getContent().split(" ")[0], event.getChat(), event.getMessage());
+        summarizeLink(extractUrls(event.getContent().getContent()).get(0), event.getChat(), event.getMessage());
+    }
+
+    /**
+     * Returns a list with all links contained in the input
+     */
+    public static List<String> extractUrls(String text) {
+        List<String> containedUrls = new ArrayList<>();
+        Matcher urlMatcher = URL_PATTERN.matcher(text);
+
+        while (urlMatcher.find()) {
+            containedUrls.add(text.substring(urlMatcher.start(0),
+                    urlMatcher.end(0)));
+        }
+
+        if (containedUrls.isEmpty()) {
+            containedUrls.add("");
+        }
+
+        return containedUrls;
     }
 
     @Override
