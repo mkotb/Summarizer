@@ -216,7 +216,7 @@ public class Summary {
                         }
 
                         if (node instanceof Element) {
-                            if (((Element) node).tagName().equals("a")) {
+                            if (((Element) node).tagName().equals("a") && !((Element) node).hasClass("ra-related")) {
                                 String text = ((Element) node).text();
                                 b.append(text);
                             }
@@ -235,6 +235,7 @@ public class Summary {
         });
     }
 
+    // NPR
     public List<String> summaryFor(String text, int length, boolean news) {
         List<String> sentences = Arrays.stream(sentenceDetector.sentDetect(text))
                 .distinct() // don't allow duplicate sentences
@@ -251,9 +252,17 @@ public class Summary {
 
                     return sentence;
                 })
+                .filter((sentence) -> sentence.split("\\W+").length > 5) // sentences must be longer than 5 words
                 .collect(Collectors.toList());
 
         sentences.replaceAll((string) -> string.replace("\n", "")); // remove any new lines from the sentences
+        long sentenceLengthSum = 0;
+
+        for (String sentence : sentences) {
+            sentenceLengthSum += sentence.split("\\W+").length;
+        }
+
+        int sentenceLengthAvg = Math.round(sentenceLengthSum / sentences.size()); // calculate average length
         Map<String, Integer> wordOccurrence = new HashMap<>();
 
         /*
@@ -284,11 +293,11 @@ public class Summary {
          */
         Map<String, Integer> sentenceScoreboard = new HashMap<>();
 
-        sentences.forEach((sentence) -> sentenceScoreboard.put(sentence, pointsFor(sentence, wordOccurrence)));
+        sentences.forEach((sentence) -> sentenceScoreboard.put(sentence, pointsFor(sentence, wordOccurrence, sentenceLengthAvg)));
 
         if (news) {
             // give extra score to headline
-            sentenceScoreboard.put(sentences.get(0), sentenceScoreboard.get(sentences.get(0)) + 35);
+            sentenceScoreboard.put(sentences.get(0), sentenceScoreboard.get(sentences.get(0)) + 4);
         }
 
         // get the top third sentences to use as the highest sentences to choose from
@@ -319,10 +328,11 @@ public class Summary {
      * The amount of points a sentence has is determined by
      * how many of it's non-function words appear in the article
      */
-    public int pointsFor(String sentence, Map<String, Integer> wordOccurrence) {
+    public int pointsFor(String sentence, Map<String, Integer> wordOccurrence, int sentenceLengthAverage) {
         int points = 0;
+        String[] words = sentence.split("\\W+");
 
-        for (String word : sentence.split("\\W+")) {
+        for (String word : words) {
             if (functionWords.contains(word.toUpperCase())) {
                 continue;
             }
@@ -341,11 +351,20 @@ public class Summary {
          * be extremely important if to be included in the
          * summary
          */
-        if (isQuote(sentence)) {
-            points -= 30;
+        if (containsQuote(sentence)) {
+            points -= 40;
         }
 
-        return points;
+        double halfOfAvg = sentenceLengthAverage / 2;
+
+        /*
+         * Penalize sentences which are either short or long of the average.
+         */
+        if (words.length < (halfOfAvg) || words.length > (sentenceLengthAverage + halfOfAvg)) {
+            points -= Math.abs(sentenceLengthAverage - words.length) * 4;
+        }
+
+        return points / sentenceLengthAverage;
     }
 
     /**
@@ -355,8 +374,8 @@ public class Summary {
         return ch == '\"' || ch == '“' || Character.isAlphabetic(ch);
     }
 
-    private boolean isQuote(String sentence) {
-        return (sentence.startsWith("“") && sentence.contains("”")) ||
-                (sentence.startsWith("\"") && sentence.substring(1).contains("\""));
+    private boolean containsQuote(String sentence) {
+        return (sentence.contains("“") || sentence.contains("”")) ||
+                (sentence.indexOf("\"") != sentence.lastIndexOf("\""));
     }
 }
