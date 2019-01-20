@@ -151,12 +151,7 @@ public class Summary {
     }
 
     public static void main(String[] args) throws Exception {
-        if (args.length == 0) {
-            System.out.println("Provide a bot api key!");
-            return;
-        }
-
-        new SummaryBot(new Summary(), args[0]);
+        new SummaryBot(new Summary(), System.getenv("TELEGRAM_KEY"));
     }
 
     public List<String> summaryFor(String link) throws IOException {
